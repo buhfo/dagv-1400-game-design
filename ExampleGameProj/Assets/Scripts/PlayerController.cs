@@ -6,12 +6,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // sets the character controller, and gives physics attributes//
-    [SerializeField] private Camera cam;
     [SerializeField] private CharacterController controller;
-    [SerializeField] private float moveSpeed;
-    private float walkSpeed = 5f;
-    private float crawlSpeed = 2.5f;
-    private float runSpeed = 10f;
+    private float moveSpeed;
+    [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float crawlSpeed = 2.5f;
+    [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float gravity = -9.81f;
 
@@ -19,7 +18,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Transform groundCheck;
     [SerializeField] public float groundDistance = 0.4f;
     [SerializeField] public LayerMask groundMask;
-
     [SerializeField] public Transform headCheck;
     [SerializeField] public float headDistance = 0.4f;
 
@@ -28,11 +26,8 @@ public class PlayerController : MonoBehaviour
 
     // makes sure the floor is being touched //
     bool isGrounded;
-
     bool isUnder;
-
     bool isCrouching;
-
     bool isRunning;
 
     private void Start()
