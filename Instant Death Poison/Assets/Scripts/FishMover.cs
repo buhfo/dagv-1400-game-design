@@ -8,9 +8,11 @@ public class FishMover : MonoBehaviour
     private int speed;
     private int waitTime;
     private bool countdownGoing = true;
+    private GameManager gameManager;
     
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         StartCoroutine(FishTurnCountdown());
         speed = Random.Range(1, 4);
         waitTime = Random.Range(1, 4);
@@ -19,19 +21,23 @@ public class FishMover : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.up * -speed * Time.deltaTime);
-
-        if (countdownGoing == false)
+        if (gameManager.gameOver == false)
         {
-            StartCoroutine(FishTurnCountdown());
-            countdownGoing=true;
+            transform.Translate(Vector3.up * -speed * Time.deltaTime);
+
+            if (countdownGoing == false)
+            {
+                StartCoroutine(FishTurnCountdown());
+                countdownGoing = true;
+            }
         }
     }
 
     IEnumerator FishTurnCountdown()
     {
         yield return new WaitForSeconds(waitTime);
+        transform.Rotate(180, 0, 0);
         countdownGoing = false;
-        transform.Rotate(180,0,0);
+        
     }
 }
