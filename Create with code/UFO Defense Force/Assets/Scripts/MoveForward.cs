@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class MoveForward : MonoBehaviour
 {
-    public float speed = 5.0f;
+    public float speed = 5f;
 
     void Update()
     {
-        //moves gameobject forward
-        transform.Translate(Vector3.up * Time.deltaTime * speed);
+        MoveObject();
+    }
+
+    //Moves the object
+    void MoveObject()
+    {
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);
     }
 }
