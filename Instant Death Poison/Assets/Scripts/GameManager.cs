@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         gameStarted = false;
         noBobber = false;
-        timer = 30;
+        timer = 3;
         returnArea = GameObject.Find("Return Point");
         playerController = GameObject.Find("Launch location").GetComponent<PlayerController>();
         timeText.gameObject.SetActive(false);
@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour
     {
         if (gameStarted && !gameOver)
         {
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+
             if (noBobber == true)
             {
                 Instantiate(launchBob, new Vector3(0, -1, 0), Quaternion.identity);
@@ -64,19 +69,9 @@ public class GameManager : MonoBehaviour
                 noBobber = false;
             }
 
-            if (playerController == null)
-            {
-                playerController = GameObject.Find("Launch location(Clone)").GetComponent<PlayerController>();
-            }
+
 
             returnVec = returnArea.transform.position;
-
-
-
-            if (timer > 0)
-            {
-                timer -= Time.deltaTime;
-            }
 
             if (timer <= 0)
             {
@@ -103,9 +98,14 @@ public class GameManager : MonoBehaviour
 
             timeText.text = "" + Mathf.RoundToInt(timer);
             scoreText.text = "Fish Caught: " + score + "/100";
+            if (playerController == null)
+            {
+                playerController = GameObject.Find("Launch location(Clone)").GetComponent<PlayerController>();
+            }
         }
         if(gameOver)
         {
+            actualFinalScoreText.text = "" + currentScore;
             if (currentScore <= finalScore)
             {
                 StartCoroutine(ScoringSpeed());
