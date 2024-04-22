@@ -7,6 +7,11 @@ public class GameManager : MonoBehaviour
     public bool isGameOver;
 
     private GameObject gameOverText;
+
+    public AudioClip gameOverSound;
+
+    private AudioSource gameManAudio;
+
     void Awake()
     {
         Time.timeScale = 1.0f;
@@ -14,6 +19,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        gameManAudio = GetComponent<AudioSource>();
         gameOverText = GameObject.Find("GameOverText");
     }
 
@@ -32,6 +38,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         gameOverText.gameObject.SetActive(true);// shows game over
+        gameManAudio.PlayOneShot(gameOverSound, 1.0f);
         Time.timeScale = 0.0f;// freeze time
     }
 }

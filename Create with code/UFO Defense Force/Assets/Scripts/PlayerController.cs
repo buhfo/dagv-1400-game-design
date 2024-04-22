@@ -19,9 +19,14 @@ public class PlayerController : MonoBehaviour
     public GameObject biggerLaserBolt;
     private GameManager gameManager;
 
+    public AudioClip laserSound;
+
+    private AudioSource playerAudio;
+
     //This exists to show more than just the powerup can be in the inventory. Also finds the GameManager
     private void Start()
     {
+        playerAudio = GetComponent<AudioSource>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         inventory.Add("Blaster");
     }
@@ -93,6 +98,8 @@ public class PlayerController : MonoBehaviour
             }
             //prints every item in the inventory in the console
             Debug.Log(string.Join(", ", inventory));
+
+            playerAudio.PlayOneShot(laserSound, 1.0f);
         }// the 2nd part makes sure you cant keep shooting after game over
     }
 
