@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 297507329939563833}
   - component: {fileID: 2811717683611864316}
   - component: {fileID: 484024720202330164}
+  - component: {fileID: 6915032569522824738}
   m_Layer: 0
   m_Name: DamageUp
   m_TagString: PowerUp
@@ -134,3 +135,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: -5
+--- !u!114 &6915032569522824738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8227603258195118502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662ba74c127139a4b8f4cd19c4677348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  green: {fileID: 2100000, guid: d3152e2acc9275a44a48c982c402fe45, type: 2}
+  white: {fileID: 2100000, guid: 6eb3a100fc9aaa6488d3921f003a0053, type: 2}
+  renderSelf: {fileID: 0}
+  isGreen: 0
+  startDelay: 1
+  switchInterval: 1.5
