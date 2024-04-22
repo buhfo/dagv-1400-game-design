@@ -17,10 +17,12 @@ public class PlayerController : MonoBehaviour
     public Transform blaster;
     public GameObject laserBolt;
     public GameObject biggerLaserBolt;
+    private GameManager gameManager;
 
-    //This exists to show more than just the powerup can be in the inventory
+    //This exists to show more than just the powerup can be in the inventory. Also finds the GameManager
     private void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         inventory.Add("Blaster");
     }
 
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private void LaserFire()
     {
         // Activates on spacebar press
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)&& gameManager.isGameOver == false)
         {
 
             // fires a normal laser if damageup is not active
@@ -91,7 +93,7 @@ public class PlayerController : MonoBehaviour
             }
             //prints every item in the inventory in the console
             Debug.Log(string.Join(", ", inventory));
-        }
+        }// the 2nd part makes sure you cant keep shooting after game over
     }
 
 
