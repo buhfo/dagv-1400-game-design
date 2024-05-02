@@ -15,29 +15,29 @@ public class FishMover : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         StartCoroutine(FishTurnCountdown());
         speed = Random.Range(1, 4);
-        waitTime = Random.Range(1, 4);
+        waitTime = Random.Range(1, 6);
     }
 
 
     void Update()
     {
-        if (gameManager.gameOver == false)
+        if (gameManager.gameOver == false) // lets fish move
         {
-            transform.Translate(Vector3.up * -speed * Time.deltaTime);
+            transform.Translate(Vector3.left * -speed * Time.deltaTime);
 
-            if (countdownGoing == false)
+            if (countdownGoing == false) //checks if the countdown is going
             {
                 StartCoroutine(FishTurnCountdown());
+                
                 countdownGoing = true;
             }
         }
     }
 
-    IEnumerator FishTurnCountdown()
+    IEnumerator FishTurnCountdown()//rotates fish after set amount of time
     {
         yield return new WaitForSeconds(waitTime);
-        transform.Rotate(180, 0, 0);
+        transform.Rotate(0, 180, 0);
         countdownGoing = false;
-        
     }
 }

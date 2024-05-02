@@ -17,23 +17,23 @@ public class SpawnManager : MonoBehaviour
     
     void Update()
     {
-        if (currentCount < 1 && gameManager.gameStarted == true)
+        if (currentCount < 1 && gameManager.gameStarted == true)// checks to see if fish need to be spawned
         {
             SpawnFishies();
         }
     }
 
-    private Vector3 GenerateSpawnPos()
+    private Vector3 GenerateSpawnPos()//generates spawn positions
     {
         float spawnPosX = Random.Range(-spawnRange, 0);
-        float spawnPosY = Random.Range(1 , 3);
+        float spawnPosY = Random.Range(-5 , spawnRange);
         float spawnPosZ = Random.Range(-spawnRange, 4);
 
         Vector3 randomPos = new Vector3(spawnPosX, spawnPosY,spawnPosZ);
         return randomPos;
     }
 
-    public void SpawnFishies()
+    public void SpawnFishies()// spawns 4 fish in random positions
     {
         Instantiate(fishPrefab, GenerateSpawnPos(), fishPrefab.transform.rotation);
         Instantiate(fishPrefab, GenerateSpawnPos(), fishPrefab.transform.rotation);
@@ -42,7 +42,7 @@ public class SpawnManager : MonoBehaviour
         currentCount = 4;
     }
 
-    public void FishWasCaught()
+    public void FishWasCaught()// lowers fish count
     {
         currentCount--;
     }

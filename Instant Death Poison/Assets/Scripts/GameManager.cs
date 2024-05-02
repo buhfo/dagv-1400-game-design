@@ -25,11 +25,11 @@ public class GameManager : MonoBehaviour
     public Button startButton;
 
     private float score;
-    private float timer;
+    private float timer = 10;
     private float finalScore;
     private float currentScore;
     private float waitTime = 1;
-    public bool noBobber;
+    public bool noBobber = false;
     public bool gameOver;
     public bool gameStarted;
     public bool addedOne;
@@ -38,73 +38,58 @@ public class GameManager : MonoBehaviour
 
     private GameObject returnArea;
     private PlayerController playerController;
-
+    private Animator mAnimator;
 
 
 
 
     private void Start()
     {
+        // Makes sure the player cant move before the game is started
         gameStarted = false;
-        noBobber = false;
-        timer = 3;
+
+        //finds the return point so it can be referenced later
         returnArea = GameObject.Find("Return Point");
+
+        //finds the player controller
         playerController = GameObject.Find("Launch location").GetComponent<PlayerController>();
+
+        // makes sure the timer and score arent visible before the game starts
         timeText.gameObject.SetActive(false);
         scoreText.gameObject.SetActive(false);
+
+        noBobber = true;
+
+        mAnimator = GameObject.Find("DerekRigged").GetComponent<Animator>();
     }
+
     private void Update()
     {
         if (gameStarted && !gameOver)
         {
-            if (timer > 0)
-            {
-                timer -= Time.deltaTime;
-            }
-
-            if (noBobber == true)
-            {
-                Instantiate(launchBob, new Vector3(0, -1, 0), Quaternion.identity);
-                Instantiate(fakeBob, returnVec, Quaternion.identity);
-                noBobber = false;
-            }
-
-
-
-            returnVec = returnArea.transform.position;
-
-            if (timer <= 0)
-            {
-                gameOver = true;
-                currentScore = score;
-                finalScore = score + timer;
-                playerController.CanMoveCheck();
-                gameOverScreen.gameObject.SetActive(true);
-                restartButton.gameObject.SetActive(true);
-                finalScoreText.gameObject.SetActive(true);
-                actualFinalScoreText.gameObject.SetActive(true);
-            }
-
-            if (score >= 100) 
-            {
-                currentScore = score;
-                finalScore = score + timer;
-                gameOver = true;
-                restartButton.gameObject.SetActive(true);
-                vicText.gameObject.SetActive(true);
-                finalScoreText.gameObject.SetActive(true);
-                actualFinalScoreText.gameObject.SetActive(true);
-            }
-
-            timeText.text = "" + Mathf.RoundToInt(timer);
-            scoreText.text = "Fish Caught: " + score + "/100";
-            if (playerController == null)
-            {
-                playerController = GameObject.Find("Launch location(Clone)").GetComponent<PlayerController>();
-            }
+            CountDown();
+            BobberCheck();
         }
-        if(gameOver)
+        GameFinished();
+    }
+
+    IEnumerator ScoringSpeed() // makes it so the counter goes up one at a time
+    {
+        yield return new WaitForSeconds(waitTime);
+        currentScore++;
+    }
+    private void GameFinished() // logs the scores and activates all UI elements
+    {
+        //checks if you ran out of time, or won the game
+        if (timer <= 0 || score >= 100)
         {
+            currentScore = score;
+            finalScore = score + timer;
+            gameOver = true;
+            restartButton.gameObject.SetActive(true);
+            vicText.gameObject.SetActive(true);
+            finalScoreText.gameObject.SetActive(true);
+            actualFinalScoreText.gameObject.SetActive(true);
             actualFinalScoreText.text = "" + currentScore;
             if (currentScore <= finalScore)
             {
@@ -113,31 +98,43 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-
-    IEnumerator ScoringSpeed()
+    private void CountDown() // starts countdown when game is started, also updates score/time text
     {
-        yield return new WaitForSeconds(waitTime);
-        currentScore++;
+        timer -= Time.deltaTime;
+        timeText.text = "" + Mathf.RoundToInt(timer);
+        scoreText.text = "Fish Caught: " + score + "/100";
     }
+    private void BobberCheck()// makes sure a bobber is in the scene
+    {
 
-
-
-    public bool IsNoBobber()
+        if (noBobber == true) //respawns the bobber
+        {
+            returnVec = returnArea.transform.position;
+            playerController.gameObject.SetActive(true);
+            Instantiate(fakeBob, returnVec, Quaternion.identity);
+            noBobber = false;
+            mAnimator.SetTrigger("Return");
+        }
+        //if (playerController == null) // before spawning a new bobber it looks for one with a different name
+        //{
+        //    playerController = GameObject.Find("Launch location(Clone)").GetComponent<PlayerController>();
+        //}
+    }
+    public bool IsNoBobber()// toggles isBobber Bool
     {
         noBobber = true;
         return noBobber;
     }
-    public void AddToScore()
-    { 
+    public void AddToScore()// controls adding to score
+    {
         score++;
         timer += 5;
     }
-    public void RestartGame()
+    public void RestartGame()// restarts the game
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    public void GameStarter()
+    public void GameStarter()// starts the game
     {
         gameStarted = true;
         timeText.gameObject.SetActive(true);

@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LevelWhiteBox.unity
+    guid: 4a1856eee20bcd14ba8138685291b40c
   m_configObjects: {}
